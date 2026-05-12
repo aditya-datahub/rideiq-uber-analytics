@@ -1,16 +1,46 @@
 # RideIQ — Uber Product Analytics
 
-> Simulating a Product Analyst role at Uber — analyzing 200,000+ rides to solve 3 core business problems using SQL, Python, and Power BI.
+> Simulating a Senior Product Analyst role at Uber — analyzing 200,000+ rides across New York City to diagnose 3 critical business problems using SQL, Python, and Power BI.
+
+![Python](https://img.shields.io/badge/Python-3.10-blue?style=flat-square&logo=python) ![SQL](https://img.shields.io/badge/SQL-PostgreSQL-336791?style=flat-square&logo=postgresql) ![PowerBI](https://img.shields.io/badge/Power%20BI-Dashboard-F2C811?style=flat-square&logo=powerbi) ![Status](https://img.shields.io/badge/Status-Complete-brightgreen?style=flat-square)
 
 ---
 
-## Business Problems
+## The Problem
 
-| # | Problem | Impact |
-|---|---------|--------|
-| 1 | Rider retention drop — D7 only 34% | ₹2.16Cr/month CAC waste |
-| 2 | Cancellation funnel leakage — 28% rides cancel | ₹2.3Cr/month GMV loss |
-| 3 | Surge pricing impact — demand drops 22% at 2x | Revenue vs demand tradeoff |
+Uber's New York operations show a concerning pattern — **8 in 10 riders never return after their first month**. Meanwhile, 28% of booked rides never complete, and surge pricing may be driving away demand rather than maximizing revenue.
+
+This project investigates all three problems end-to-end — from raw data to business recommendations.
+
+---
+
+## Business Problems & Impact
+
+| # | Problem | Metric | Business Impact |
+|---|---------|--------|----------------|
+| 1 | Rider retention drop | D7: 34%, D30: 19% | ₹2.16Cr/month CAC waste |
+| 2 | Cancellation funnel leakage | 28% rides cancelled | ₹2.3Cr/month GMV loss |
+| 3 | Surge pricing kills demand | 22% demand drop at 2x | Revenue vs retention tradeoff |
+
+---
+
+## Key Findings
+
+- **Peak demand** — Friday 7 PM peaks at 1,999 rides/hour
+- **Retention crisis** — Only 19% of riders active after 30 days; 81% lost within a month
+- **Cancellation pattern** — 6 AM has the lowest ride completion rate (81%)
+- **Fare range** — Average fare falls in $10–$15 (Medium Surge) across all hours
+- **Rider segments** — 3 distinct segments identified: Low, Mid, and High value riders
+
+---
+
+## Business Recommendations
+
+| Problem | Recommendation |
+|---------|---------------|
+| Retention | Target D7 churned riders with ₹60 discount voucher via push notification |
+| Cancellation | Penalize repeat post-match cancellers — warning after 3 cancellations |
+| Surge | A/B test surge cap at 1.5x in 2 cities for 30 days — measure GMV vs demand |
 
 ---
 
@@ -18,38 +48,35 @@
 
 | Tool | Purpose |
 |------|---------|
-| Python | Data cleaning, EDA, A/B testing, KMeans segmentation |
+| Python (Pandas, Matplotlib, Seaborn, Scikit-learn) | Cleaning, EDA, A/B testing, segmentation |
 | SQL (PostgreSQL) | Funnel analysis, cohort retention, LTV, surge revenue |
-| Power BI | Executive dashboard — 3 pages, 5 DAX measures |
+| Power BI (DAX) | Executive dashboard — 3 pages, 5 DAX measures |
 
 ---
 
 ## Project Structure
 
+```
 rideiq-uber-analytics/
-├── data/               — raw and cleaned datasets
-├── notebooks/          — 4 Python notebooks
-├── sql/                — 6 SQL query files
-├── dashboard/          — Power BI .pbix file
+├── data/
+│   ├── raw/                  ← Original Kaggle dataset
+│   └── cleaned/              ← Processed dataset (195,065 rows)
+├── notebooks/
+│   ├── 01_data_cleaning.ipynb
+│   ├── 02_eda.ipynb
+│   ├── 03_ab_test.ipynb
+│   └── 04_segmentation.ipynb
+├── sql/
+│   ├── 01_funnel.sql
+│   ├── 02_retention_cohort.sql
+│   ├── 03_ltv.sql
+│   ├── 04_cancellation.sql
+│   ├── 05_supply_demand.sql
+│   └── 06_surge_revenue.sql
+├── dashboard/
+│   └── uber_dashboard.pbix
 └── problem_statement.md
-
----
-
-## Key Findings
-
-- **Peak demand** — Friday 7 PM has highest rides (1,999 rides/hour)
-- **Retention** — D7 retention at 34%, D30 at 19% — 8 in 10 riders lost within a month
-- **Cancellation** — Hour 6 AM has lowest completion rate (81%)
-- **Surge** — All hours fall in Medium Surge range ($10–$15 avg fare)
-- **Segmentation** — 3 rider segments identified — Low, Mid, High value
-
----
-
-## Business Recommendations
-
-1. **Retention** — Target riders who haven't returned in 7 days with ₹60 discount voucher
-2. **Cancellation** — Reduce post-match cancellations by penalizing repeat cancellers
-3. **Surge** — Run real A/B test in 2 cities — cap surge at 1.5x for 30 days
+```
 
 ---
 
@@ -57,10 +84,10 @@ rideiq-uber-analytics/
 
 | Notebook | Description |
 |----------|-------------|
-| 01_data_cleaning.ipynb | Cleaned 200K rows — removed 4,935 invalid records |
-| 02_eda.ipynb | 8+ visualizations — hourly demand, fare distribution, cohort heatmap |
-| 03_ab_test.ipynb | Surge cap A/B test — Z-test, p-value 0.46 |
-| 04_segmentation.ipynb | KMeans clustering — Low, Mid, High value riders |
+| 01_data_cleaning.ipynb | Cleaned 200K rows — removed 4,935 invalid records, fixed data types, engineered time features |
+| 02_eda.ipynb | 8+ visualizations — hourly demand, fare distribution, day-of-week patterns, cohort heatmap |
+| 03_ab_test.ipynb | Simulated surge cap A/B test — Z-test, p-value: 0.46 |
+| 04_segmentation.ipynb | KMeans clustering (k=3) — Low, Mid, High value rider segments |
 
 ---
 
@@ -69,12 +96,25 @@ rideiq-uber-analytics/
 | File | Analysis |
 |------|----------|
 | 01_funnel.sql | Ride completion funnel by hour |
-| 02_retention_cohort.sql | Monthly cohort retention with window functions |
+| 02_retention_cohort.sql | Monthly cohort retention using window functions |
 | 03_ltv.sql | Rider lifetime value by passenger segment |
-| 04_cancellation.sql | Cancellation rate by hour |
-| 05_supply_demand.sql | Peak demand hours by day |
-| 06_surge_revenue.sql | Revenue and surge level by hour |
+| 04_cancellation.sql | Cancellation rate analysis by hour |
+| 05_supply_demand.sql | Peak demand hours by day of week |
+| 06_surge_revenue.sql | Revenue and surge level classification by hour |
 
 ---
 
-*Dataset: Uber Fares Dataset — Kaggle | Rows: 195,065 | Tools: Python, PostgreSQL, Power BI*
+## Dataset
+
+| Property | Value |
+|----------|-------|
+| Source | Uber Fares Dataset — Kaggle |
+| Raw rows | 200,000 |
+| Cleaned rows | 195,065 |
+| Columns | 11 (after feature engineering) |
+| Location | New York City |
+| Period | 2009–2015 |
+
+---
+
+*Built by Aditya Sharma · [LinkedIn](https://linkedin.com/in/your-profile) · [GitHub](https://github.com/aditya-datahub)*
