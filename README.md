@@ -8,28 +8,28 @@
 
 ## The Problem
 
-Uber's New York operations show a concerning pattern — **8 in 10 riders never return after their first month**. Meanwhile, 28% of booked rides never complete, and surge pricing may be driving away demand rather than maximizing revenue.
+Uber's New York operations show a concerning pattern — **8 in 10 riders never return after their first month**. Meanwhile, a significant portion of booked rides never complete, and surge pricing may be driving away demand rather than maximizing revenue.
 
 This project investigates all three problems end-to-end — from raw data to business recommendations.
 
 ---
 
-## Business Problems & Impact
+## Business Problems
 
-| # | Problem | Metric | Business Impact |
-|---|---------|--------|----------------|
-| 1 | Rider retention drop | D7: 34%, D30: 19% | ₹2.16Cr/month CAC waste |
-| 2 | Cancellation funnel leakage | 28% rides cancelled | ₹2.3Cr/month GMV loss |
-| 3 | Surge pricing kills demand | 22% demand drop at 2x | Revenue vs retention tradeoff |
+| # | Problem | What We Found |
+|---|---------|--------------|
+| 1 | Rider retention drop | D7: 34%, D30: 19% — 8 in 10 riders lost within a month |
+| 2 | Cancellation funnel leakage | 6 AM has lowest ride completion rate (81%) |
+| 3 | Surge pricing impact | All hours fall in $10–$15 avg fare range (Medium Surge) |
 
 ---
 
 ## Key Findings
 
 - **Peak demand** — Friday 7 PM peaks at 1,999 rides/hour
-- **Retention crisis** — Only 19% of riders active after 30 days; 81% lost within a month
-- **Cancellation pattern** — 6 AM has the lowest ride completion rate (81%)
-- **Fare range** — Average fare falls in $10–$15 (Medium Surge) across all hours
+- **Retention crisis** — Only 19% of riders still active after 30 days
+- **Cancellation pattern** — Early morning hours (6 AM) show highest cancellation rates
+- **Fare distribution** — Average fare $11.36, median $8.50 — majority of rides are short trips
 - **Rider segments** — 3 distinct segments identified: Low, Mid, and High value riders
 
 ---
@@ -38,9 +38,9 @@ This project investigates all three problems end-to-end — from raw data to bus
 
 | Problem | Recommendation |
 |---------|---------------|
-| Retention | Target D7 churned riders with ₹60 discount voucher via push notification |
-| Cancellation | Penalize repeat post-match cancellers — warning after 3 cancellations |
-| Surge | A/B test surge cap at 1.5x in 2 cities for 30 days — measure GMV vs demand |
+| Retention | Target D7 churned riders with discount voucher via push notification |
+| Cancellation | Investigate early morning supply-demand gap — increase driver incentives at 6 AM |
+| Surge | Run A/B test — cap surge at 1.5x in 2 cities for 30 days, measure demand vs revenue |
 
 ---
 
